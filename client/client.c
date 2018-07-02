@@ -151,6 +151,12 @@ int sock(char * hn, int pt[2]){
                 perror("IPV6_V6ONLY setting failed.");
                 return -1;
             }
+
+            int mtu=1350;
+            if (setsockopt(socket_desc, IPPROTO_IPV6, IPV6_MTU, &mtu, sizeof(mtu)) < 0) {
+                perror("IPV6_MTU setting failed.");
+                exit(1);
+            }
             // puts("ggggg");
             // server6=(struct sockaddr_in6*)malloc(sizeof(struct sockaddr_in6));
             // bzero(server6,sizeof(*server6));
