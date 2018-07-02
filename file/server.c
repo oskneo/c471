@@ -31,6 +31,8 @@ int connection46(int port, int buffer,int type){
         server.sin_port= htons(port);
         
         sv=&server;
+        
+        puts("This is a IPv4 connection.");
     }
     else{
         socket_desc = socket(AF_INET6 , SOCK_STREAM , 0);
@@ -46,6 +48,8 @@ int connection46(int port, int buffer,int type){
         server6.sin6_port= htons(port);
         
         sv=&server6;
+        
+        puts("This is a IPv6 connection.");
     }
     
     
@@ -251,7 +255,7 @@ int main(int argc , char *argv[])
     // return 0;
     
     int processId[2],pid;
-    for(i=0;i<1;i++){
+    for(i=0;i<2;i++){
         pid=fork();
         if(pid==0){
             
@@ -279,7 +283,7 @@ int main(int argc , char *argv[])
         
     }
     int status;
-    for(i=0;i<1;i++){
+    for(i=0;i<2;i++){
         
         waitpid(processId[i], &status, 0);
         // switch(status){
