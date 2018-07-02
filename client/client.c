@@ -152,7 +152,7 @@ int sock(char * hn, int pt[2]){
                 return -1;
             }
 
-            int mtu=1350;
+            int mtu=1280;
             if (setsockopt(socket_desc, IPPROTO_IPV6, IPV6_MTU, &mtu, sizeof(mtu)) < 0) {
                 perror("IPV6_MTU setting failed.");
                 exit(1);
