@@ -3,6 +3,9 @@
 #include<arpa/inet.h>
 #include <string.h>
 #include <stdlib.h>
+#include <unistd.h>
+#include<sys/wait.h>
+#include<sys/types.h>  
 
 
 #define queue 20
@@ -11,113 +14,6 @@
 #define buffersize6 1280
 #define buffersize4 1440
 #define fn "fileToTransfer"
-
-
-int connection46(int port, int buffer,int type){
-    
-    int socket_desc;
-    struct sockaddr_in server, client;
-    struct sockaddr_in6 server6, client6;
-    
-    void * sv;
-    void * cl;
-    
-    if(type==0){
-        socket_desc = socket(AF_INET , SOCK_STREAM , 0);
-        
-        bzero(&server,sizeof(server));
-        server.sin_addr.s_addr = INADDR_ANY;
-        server.sin_family = AF_INET;
-        server.sin_port= htons(port);
-        
-        sv=&server;
-        
-        puts("This is a IPv4 connection.");
-    }
-    else{
-        socket_desc = socket(AF_INET6 , SOCK_STREAM , 0);
-        
-        int on=1;
-        if (setsockopt(socket_desc, IPPROTO_IPV6, IPV6_V6ONLY, &on, sizeof(on)) < 0) {
-            perror("IPV6_V6ONLY setting failed.");
-            exit(1);
-        }
-        bzero(&server6,sizeof(server6));
-        server6.sin6_addr = in6addr_any;
-        server6.sin6_family = AF_INET6;
-        server6.sin6_port= htons(port);
-        
-        sv=&server6;
-        
-        puts("This is a IPv6 connection.");
-    }
-    
-    
-     
-    if (socket_desc == -1)
-    {
-        printf("Could not create socket\n");
-        
-        return -1;
-    }
-    else{
-        printf("Create socket successfully.\n");   
-    }
-    
-    
-    if(bind(socket_desc, type==0 ? (struct sockaddr *)&server : (struct sockaddr *)&server6, type==0 ? sizeof(server) : sizeof(server6))<0){
-        printf("Bind fail.\n");
-        return 1;
-    }
-    else{
-        printf("Bind successfully.\n");
-    }
-    
-    listen(socket_desc, queue);
-    printf("Waiting...\n");
-    int c;
-    c = type==0 ? sizeof(struct sockaddr_in) : sizeof(struct sockaddr_in6);
-    int newsocket;
-    while(newsocket = accept(socket_desc, type==0 ? (struct sockaddr *)&client : (struct sockaddr *)&client6, (socklen_t*)&c)){
-        int f=fork();
-        if(f==0){
-            if (newsocket<0){
-                perror("Accept failed.\n");
-                return -1;
-            }
-            else{
-                printf("Accept successfully.\n");
-            }
-    
-    
-    
-            char msg[30];
-            if(read(newsocket,msg,30)<0){
-                printf("Receiving fail.\n");
-                return -1;
-            }
-            else{
-                printf("Receiving successfully.\n");
-                printf("%s\n",msg);
-            }
-    
-    
-            sendfile(newsocket,msg,buffer);
-        }
-        else if(f<0){
-            printf("Child process creating failed.\n");
-            exit(1);
-        }
-    
-    }
-    
-    
-     
-    return 0;
-    
-}
-
-
 
 
 int sendfile(int nsocket,char * msg,int bs){
@@ -163,6 +59,116 @@ int sendfile(int nsocket,char * msg,int bs){
     
     
 }
+
+
+int connection46(int port, int buffer,int type){
+    
+    int socket_desc;
+    struct sockaddr_in server, client;
+    struct sockaddr_in6 server6, client6;
+    
+    void * sv;
+    void * cl;
+    
+    if(type==0){
+        socket_desc = socket(AF_INET , SOCK_STREAM , 0);
+        
+        bzero(&server,sizeof(server));
+        server.sin_addr.s_addr = INADDR_ANY;
+        server.sin_family = AF_INET;
+        server.sin_port= htons(port);
+        
+        sv=&server;
+        
+        
+    }
+    else{
+        socket_desc = socket(AF_INET6 , SOCK_STREAM , 0);
+        
+        int on=1;
+        if (setsockopt(socket_desc, IPPROTO_IPV6, IPV6_V6ONLY, &on, sizeof(on)) < 0) {
+            perror("IPV6_V6ONLY setting failed.");
+            exit(1);
+        }
+        bzero(&server6,sizeof(server6));
+        server6.sin6_addr = in6addr_any;
+        server6.sin6_family = AF_INET6;
+        server6.sin6_port= htons(port);
+        
+        sv=&server6;
+        
+    }
+    
+    
+     
+    if (socket_desc == -1)
+    {
+        printf("Could not create socket\n");
+        
+        return -1;
+    }
+    else{
+        printf("Create socket successfully.\n");   
+    }
+    
+    
+    if(bind(socket_desc, type==0 ? (struct sockaddr *)&server : (struct sockaddr *)&server6, type==0 ? sizeof(server) : sizeof(server6))<0){
+        printf("Bind fail.\n");
+        return 1;
+    }
+    else{
+        printf("Bind successfully.\n");
+    }
+    
+    listen(socket_desc, queue);
+    printf("Waiting for IPv%d connection at port %d...\n",type==0 ? 4:6, port);
+    int c;
+    c = type==0 ? sizeof(struct sockaddr_in) : sizeof(struct sockaddr_in6);
+    int newsocket;
+    while(newsocket = accept(socket_desc, type==0 ? (struct sockaddr *)&client : (struct sockaddr *)&client6, (socklen_t*)&c)){
+        pid_t f=fork();
+        if(f==0){
+            puts(type==0 ? "This is a IPv4 connection." : "This is a IPv6 connection.");
+            if (newsocket<0){
+                perror("Accept failed.\n");
+                return -1;
+            }
+            else{
+                printf("Accept successfully.\n");
+            }
+    
+    
+    
+            char msg[30];
+            bzero(msg,30);
+            if(read(newsocket,msg,30)<0){
+                printf("Receiving fail.\n");
+                return -1;
+            }
+            else{
+                printf("Receiving successfully.\n");
+                printf("%s\n",msg);
+            }
+    
+    
+            sendfile(newsocket,msg,buffer);
+        }
+        else if(f<0){
+            printf("Child process creating failed.\n");
+            exit(1);
+        }
+    
+    }
+    
+    
+     
+    return 0;
+    
+}
+
+
+
+
  
 int main(int argc , char *argv[])
 {
@@ -256,7 +262,7 @@ int main(int argc , char *argv[])
     
     int processId[2],pid;
     for(i=0;i<2;i++){
-        pid=fork();
+        pid=(int)fork();
         if(pid==0){
             
             // printf("%d\n",getpid());
