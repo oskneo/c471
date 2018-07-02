@@ -112,17 +112,17 @@ int sock(char * hn, int pt[2]){
     
             // server4.sin_family = AF_INET;
             // server4.sin_port= htons(pt[0]);
-            puts("gggggg");
+            // puts("gggggg");
             server4 = (struct sockaddr_in *)rs->ai_addr;
             // server4->sin_addr.s_addr=inet_addr(rs->ai_addr->sa_data);
             server4->sin_port=htons(pt[0]);
             // server4->sin_family=AF_INET;
-            puts("gggggg1");
+            // puts("gggggg1");
 
             errno=connect(socket_desc, (struct sockaddr *)server4, sizeof(*server4));
             // errno=connect(socket_desc, rs->ai_addr, rs->ai_addrlen);
             
-            puts("gggggg2");
+            // puts("gggggg2");
             
 
             break;
@@ -262,7 +262,7 @@ int main(int argc , char *argv[])
     // }
     
     
-    printf("%lu\n",strlen(msg));
+    // printf("%lu\n",strlen(msg));
     
     if(send(socket_desc,msg,strlen(msg),0)<0){
         printf("Sending fail.\n");
