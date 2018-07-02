@@ -5,6 +5,9 @@
 #include<netdb.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <sys/ioctl.h>
+#include <net/if.h>
+
 
 #define port4 33455
 #define port6 33446
@@ -130,8 +133,17 @@ int sock(char * hn, int pt[2]){
         case AF_INET6:{
             puts("This is an IPv6 address.");
 
+            struct ifreq ifr; 
+            ifr.ifr_addr.sa_family = AF_INET6;
+            //iap->ifa_name is bond1:xx
+            strcpy(ifr.ifr_name, "eth1");
+            ifr.ifr_mtu = 1280; 
+            
+
             struct sockaddr_in6 *server6;
             socket_desc = socket(AF_INET6 , SOCK_STREAM , 0);
+
+            
      
             if (socket_desc == -1)
             {
@@ -140,6 +152,8 @@ int sock(char * hn, int pt[2]){
             else{
                 printf("Create socket successfully.\n");   
             }
+
+            ioctl(socket_desc, SIOCSIFMTU, (caddr_t)&ifr);
     //server.sin_addr.s_addr = inet_addr(inet_ntoa(*((struct in_addr *)adr->h_addr_list[0])));
             // server4.sin_addr.s_addr = inet_addr("::1");
     
@@ -152,11 +166,11 @@ int sock(char * hn, int pt[2]){
                 return -1;
             }
 
-            int mtu=1280;
-            if (setsockopt(socket_desc, IPPROTO_IPV6, IPV6_MTU, &mtu, sizeof(mtu)) < 0) {
-                perror("IPV6_MTU setting failed.");
-                exit(1);
-            }
+            // int mtu=1280;
+            // if (setsockopt(socket_desc, IPPROTO_IPV6, IPV6_MTU, &mtu, sizeof(mtu)) < 0) {
+            //     perror("IPV6_MTU setting failed.");
+            //     exit(1);
+            // }
             // puts("ggggg");
             // server6=(struct sockaddr_in6*)malloc(sizeof(struct sockaddr_in6));
             // bzero(server6,sizeof(*server6));

@@ -6,6 +6,9 @@
 #include <unistd.h>
 #include<sys/wait.h>
 #include<sys/types.h>  
+#include <sys/ioctl.h>
+#include <net/if.h>
+
 
 
 #define queue 20
@@ -69,6 +72,15 @@ int connection46(int port, int buffer,int type){
     
     void * sv;
     void * cl;
+
+
+    struct ifreq ifr; 
+    ifr.ifr_addr.sa_family = AF_INET6;
+    //iap->ifa_name is bond1:xx
+    strcpy(ifr.ifr_name, "eth1");
+    ifr.ifr_mtu = 1280; 
+    
+
     
     if(type==0){
         socket_desc = socket(AF_INET , SOCK_STREAM , 0);
@@ -84,6 +96,8 @@ int connection46(int port, int buffer,int type){
     }
     else{
         socket_desc = socket(AF_INET6 , SOCK_STREAM , 0);
+
+        ioctl(socket_desc, SIOCSIFMTU, (caddr_t)&ifr);
         
         int on=1;
         if (setsockopt(socket_desc, IPPROTO_IPV6, IPV6_V6ONLY, &on, sizeof(on)) < 0) {
@@ -91,11 +105,11 @@ int connection46(int port, int buffer,int type){
             exit(1);
         }
 
-        int mtu=1280;
-        if (setsockopt(socket_desc, IPPROTO_IPV6, IPV6_MTU, &mtu, sizeof(mtu)) < 0) {
-            perror("IPV6_MTU setting failed.");
-            exit(1);
-        }
+        // int mtu=1280;
+        // if (setsockopt(socket_desc, IPPROTO_IPV6, IPV6_MTU, &mtu, sizeof(mtu)) < 0) {
+        //     perror("IPV6_MTU setting failed.");
+        //     exit(1);
+        // }
         bzero(&server6,sizeof(server6));
         server6.sin6_addr = in6addr_any;
         server6.sin6_family = AF_INET6;
