@@ -90,6 +90,11 @@ int connection46(int port, int buffer,int type){
             perror("IPV6_V6ONLY setting failed.");
             exit(1);
         }
+        int mtu=1700;
+        if (setsockopt(socket_desc, IPPROTO_IPV6, IPV6_MTU, &mtu, sizeof(mtu)) < 0) {
+            perror("IPV6_MTU setting failed.");
+            exit(1);
+        }
         bzero(&server6,sizeof(server6));
         server6.sin6_addr = in6addr_any;
         server6.sin6_family = AF_INET6;
