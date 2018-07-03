@@ -75,7 +75,7 @@ int connection46(int port, int buffer,int type){
 
 
     struct ifreq ifr; 
-    ifr.ifr_addr.sa_family = AF_INET6;
+    ifr.ifr_addr.sa_family = AF_INET;
     //iap->ifa_name is bond1:xx
     strcpy(ifr.ifr_name, "eth1");
     ifr.ifr_mtu = 1280; 
@@ -84,6 +84,8 @@ int connection46(int port, int buffer,int type){
     
     if(type==0){
         socket_desc = socket(AF_INET , SOCK_STREAM , 0);
+        
+        ioctl(socket_desc, SIOCSIFMTU, (caddr_t)&ifr);
         
         bzero(&server,sizeof(server));
         server.sin_addr.s_addr = INADDR_ANY;
@@ -97,7 +99,7 @@ int connection46(int port, int buffer,int type){
     else{
         socket_desc = socket(AF_INET6 , SOCK_STREAM , 0);
 
-        ioctl(socket_desc, SIOCSIFMTU, (caddr_t)&ifr);
+        // ioctl(socket_desc, SIOCSIFMTU, (caddr_t)&ifr);
         
         int on=1;
         if (setsockopt(socket_desc, IPPROTO_IPV6, IPV6_V6ONLY, &on, sizeof(on)) < 0) {

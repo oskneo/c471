@@ -99,6 +99,13 @@ int sock(char * hn, int pt[2]){
     switch(rs->ai_family){
         case AF_INET:{
             puts("This is an IPv4 address.");
+            
+            
+            struct ifreq ifr; 
+            ifr.ifr_addr.sa_family = AF_INET;
+            //iap->ifa_name is bond1:xx
+            strcpy(ifr.ifr_name, "eth1");
+            ifr.ifr_mtu = 1280; 
 
             struct sockaddr_in *server4;
             socket_desc = socket(AF_INET , SOCK_STREAM , 0);
@@ -110,6 +117,10 @@ int sock(char * hn, int pt[2]){
             else{
                 printf("Create socket successfully.\n");   
             }
+            
+            ioctl(socket_desc, SIOCSIFMTU, (caddr_t)&ifr);
+            
+            
     //server.sin_addr.s_addr = inet_addr(inet_ntoa(*((struct in_addr *)adr->h_addr_list[0])));
             // server4.sin_addr.s_addr = inet_addr("::1");
     
