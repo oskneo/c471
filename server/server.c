@@ -22,7 +22,7 @@
 int sendfile(int nsocket,char * msg,int bs){
     
     FILE *file=fopen(msg,"r");
-    int filesize=0;
+    int filesize=0,sent=0;
     if(file==NULL){
         filesize=-1;
         write(nsocket,&filesize,4);
@@ -39,17 +39,20 @@ int sendfile(int nsocket,char * msg,int bs){
     write(nsocket,&filesize,4);
     
     char buf[bs];
-    bzero(&buf,bs);
+    bzero(buf,bs);
     while(filesize>0){
         fread(buf,1,bs,file);
-        
-        if(send(nsocket,buf,bs,0)<0){
+        sent=send(nsocket,buf,bs,0);
+        if(sent<0){
             printf("Sending file failed.\n");
             fclose(file);
             return 1;
         }
-        filesize-=bs;
-        bzero(&buf,bs);
+        else if(sent==0){
+            break;
+        }
+        filesize-=sent;
+        bzero(buf,bs);
     }
     fclose(file);
     

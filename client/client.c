@@ -42,31 +42,37 @@ int receivefile(int nsocket,char * msg,int bs){
         printf("The size of file is %d.\n",reno);
     }
     
-    FILE *file=fopen(msg,"a");
+    FILE *file=fopen(msg,"w");
+    rewind(file);
     char buf[bs];
-    bzero(&buf,bs);
+    bzero(buf,bs);
     int received=bs;
     
     while(reno>0){
         
-        if(reno<bs){
-            received=reno;
-        }
-        recv(nsocket,buf,received,0);
-        // printf("%d\n",reno);
+        // if(reno<bs){
+        //     received=reno;
+        // }
+        // printf("reno:%d\n",reno);
+        received=recv(nsocket,buf,bs,0);
+        // printf("received:%d\n",received);
+        
         if(received<0){
             printf("Receiving fail.\n");
             fclose(file);
             return 1;
         }
-        // else if(received==0){
-        //     break;
-        // }
+        else if(received==0){
+            break;
+        }
         else{
+            if(reno<bs){
+                received=reno;
+            }
             
-            fwrite(buf,1,received,file);
+            fwrite(buf,received,1,file);
             reno-=received;
-            bzero(&buf,bs);
+            bzero(buf,bs);
             
         }
     }
