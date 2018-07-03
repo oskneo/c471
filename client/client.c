@@ -53,9 +53,9 @@ int receivefile(int nsocket,char * msg,int bs){
         // if(reno<bs){
         //     received=reno;
         // }
-        // printf("reno:%d\n",reno);
+        printf("reno:%d\n",reno);
         received=recv(nsocket,buf,bs,0);
-        // printf("received:%d\n",received);
+        printf("received:%d\n",received);
         
         if(received<0){
             printf("Receiving fail.\n");
@@ -86,7 +86,7 @@ int receivefile(int nsocket,char * msg,int bs){
 }
 
 
-int sock(char * hn, int pt[2]){
+int sock(char * hn, int pt[2], int *buffer,int bfa[2]){
 
     struct addrinfo *rs;
     struct addrinfo indication;
@@ -124,7 +124,17 @@ int sock(char * hn, int pt[2]){
                 printf("Create socket successfully.\n");   
             }
             
-            ioctl(socket_desc, SIOCSIFMTU, (caddr_t)&ifr);
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
             
             
     //server.sin_addr.s_addr = inet_addr(inet_ntoa(*((struct in_addr *)adr->h_addr_list[0])));
@@ -138,11 +148,18 @@ int sock(char * hn, int pt[2]){
             server4->sin_port=htons(pt[0]);
             // server4->sin_family=AF_INET;
             // puts("gggggg1");
+            *buffer=bfa[0];
 
             errno=connect(socket_desc, (struct sockaddr *)server4, sizeof(*server4));
             // errno=connect(socket_desc, rs->ai_addr, rs->ai_addrlen);
             
             // puts("gggggg2");
+            // ioctl(socket_desc, SIOCSIFMTU, (caddr_t)&ifr);
+            
+            int socket_mtu=0;
+            int sz=sizeof(socket_mtu);
+            getsockopt(socket_desc,IPPROTO_IP,IP_MTU,(char *)&socket_mtu, &sz );
+            printf("MTU --> %d\n",socket_mtu); 
             
 
             break;
@@ -170,7 +187,7 @@ int sock(char * hn, int pt[2]){
                 printf("Create socket successfully.\n");   
             }
 
-            ioctl(socket_desc, SIOCSIFMTU, (caddr_t)&ifr);
+            
     //server.sin_addr.s_addr = inet_addr(inet_ntoa(*((struct in_addr *)adr->h_addr_list[0])));
             // server4.sin_addr.s_addr = inet_addr("::1");
     
@@ -182,12 +199,9 @@ int sock(char * hn, int pt[2]){
                 perror("IPV6_V6ONLY setting failed.");
                 return -1;
             }
+            
 
-            // int mtu=1280;
-            // if (setsockopt(socket_desc, IPPROTO_IPV6, IPV6_MTU, &mtu, sizeof(mtu)) < 0) {
-            //     perror("IPV6_MTU setting failed.");
-            //     exit(1);
-            // }
+            
             // puts("ggggg");
             // server6=(struct sockaddr_in6*)malloc(sizeof(struct sockaddr_in6));
             // bzero(server6,sizeof(*server6));
@@ -197,8 +211,23 @@ int sock(char * hn, int pt[2]){
             server6->sin6_port=htons(pt[1]);
             server6->sin6_family=AF_INET6;
             // puts("ggggg2");
+            *buffer=bfa[1];
             errno=connect(socket_desc, (struct sockaddr *)server6, sizeof(*server6));
             // puts("ggggg3");
+            
+            ioctl(socket_desc, SIOCSIFMTU, (caddr_t)&ifr);
+            
+            int mtu=1280;
+            if (setsockopt(socket_desc, IPPROTO_IPV6, IPV6_MTU, &mtu, sizeof(mtu)) < 0) {
+                perror("IPV6_MTU setting failed.");
+                exit(1);
+            }
+            
+            
+            int socket_mtu=0;
+            int sz=sizeof(socket_mtu);
+            getsockopt(socket_desc,IPPROTO_IPV6,IPV6_MTU,(char *)&socket_mtu, &sz );
+            printf("MTU --> %d\n",socket_mtu); 
 
         }
 
@@ -224,7 +253,8 @@ int main(int argc , char *argv[])
     int pt6=port6,
     pt4=port4,
     pt[2],
-    buffer=buffersize6;
+    bfa[2]={buffersize4,buffersize6},
+    buffer=0;
     
     char hn[50]=address;
     
@@ -247,7 +277,8 @@ int main(int argc , char *argv[])
             pt4=atoi(argv[i+1]);
         }
         else if(strcmp(argv[i],"-b")==0){
-            buffer=atoi(argv[i+1]);
+            bfa[0]=atoi(argv[i+1]);
+            bfa[1]=atoi(argv[i+1]);
         }
         else if(strcmp(argv[i],"-a")==0){
             bzero(hn,50);
@@ -272,7 +303,7 @@ int main(int argc , char *argv[])
     int socket_desc;
     // struct sockaddr_in server;
 
-    socket_desc = sock(hn,pt);
+    socket_desc = sock(hn,pt,&buffer,bfa);
     
     // socket_desc = socket(AF_INET , SOCK_STREAM , 0);
      

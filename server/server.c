@@ -41,8 +41,10 @@ int sendfile(int nsocket,char * msg,int bs){
     char buf[bs];
     bzero(buf,bs);
     while(filesize>0){
+        printf("filesize:%d\n",filesize);
         fread(buf,1,bs,file);
         sent=send(nsocket,buf,bs,0);
+        printf("sent:%d\n",sent);
         if(sent<0){
             printf("Sending file failed.\n");
             fclose(file);
