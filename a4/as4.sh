@@ -28,8 +28,8 @@ chmod 777 ./MCRnet16.mgn
 
 
 echo '
-
-sftp --password="$password" june << !
+export SSH_ASKPASS="./password"
+setsid sftp --password="$password" june << !
  put MCRnet16.mgn
  quit
 !
