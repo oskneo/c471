@@ -1,3 +1,4 @@
+#!/bin/bash
 MCA1="224.5.5.5"
 P1="5678"
 
@@ -29,7 +30,7 @@ chmod 777 ./MCRnet16.mgn
 
 echo '
 export SSH_ASKPASS="./password"
-setsid sftp --password="$password" june << !
+setsid sftp june << !
  put MCRnet16.mgn
  quit
 !
