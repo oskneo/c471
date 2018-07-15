@@ -3,10 +3,12 @@ MCA1="224.5.5.5"
 P1="5678"
 
 join_time=1
+start_sending_time=$((join_time+1))
 sending_duration=10
+hz_of_sending_packet="0.5"
 time_for_one_packet=2
-hz_of_sending_packet=$((1/time_for_one_packet))
-leave_time=$((join_time+sending_duration+2))
+packet_count=$((sending_duration/time_for_one_packet))
+leave_time=$((start_sending_time+sending_duration+2))
 
 read -p "Please enter your password:" password
 
@@ -18,7 +20,7 @@ chmod 777 ./password
 echo "
 export SSH_ASKPASS='./password'
 export DISPLAY=YOURDOINGITWRONG
-setsid ssh april 'tshark -i eth1 -a duration:15 -w n16.pcap;exit;'
+setsid ssh april 'tshark -i eth1 -a duration:$sending_duration -w n16.pcap;exit;'
 
 export SSH_ASKPASS='./password'
 setsid sftp april << !
@@ -40,8 +42,8 @@ chmod 777 ./n16pc.sh
 #Choose June as MCRnet16
 
 echo "
-1.0 JOIN $MCA1 PORT $P1
-10.0 LEAVE $MCA1 PORT $P1
+$join_time JOIN $MCA1 PORT $P1
+$leave_time LEAVE $MCA1 PORT $P1
 
 " > ./MCRnet16.mgn
 chmod 777 ./MCRnet16.mgn
@@ -66,7 +68,7 @@ chmod 777 ./n16mcr.sh
 #Choose September as MCSnet16
 
 echo "
-2.0 ON 1 UDP SRC $P1 DST $MCA1/$P1 PERIODIC [0.5 512] COUNT 3
+$start_sending_time ON 1 UDP SRC $P1 DST $MCA1/$P1 PERIODIC [$hz_of_sending_packet 512] COUNT $packet_count
 
 " > ./MCSnet16.mgn
 chmod 777 ./MCSnet16.mgn

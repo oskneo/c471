@@ -1,5 +1,5 @@
 a=2
-b=3
+b=0.5
 c=$((a+b))
 d="aaa"
-echo "aaa $((a*b))"
+echo "aaa $((a/b))"
