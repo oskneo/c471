@@ -13,6 +13,20 @@ echo '
 export SSH_ASKPASS="./password"
 export DISPLAY=YOURDOINGITWRONG
 setsid ssh april "tshark -i eth1 -a duration:15 -w n16.pcap;exit;"
+
+export SSH_ASKPASS="./password"
+setsid sftp april << !
+ get n16.pcap
+ quit
+!
+
+export SSH_ASKPASS="./password"
+export DISPLAY=YOURDOINGITWRONG
+setsid ssh april "rm n16.pcap;exit;"
+
+
+
+
 ' > ./n16pc.sh
 chmod 777 ./n16pc.sh
 
@@ -37,7 +51,7 @@ setsid sftp june << !
 
 export SSH_ASKPASS="./password"
 export DISPLAY=YOURDOINGITWRONG
-setsid ssh june "mgen input MCRnet16.mgn;exit;"
+setsid ssh june "mgen input MCRnet16.mgn;rm MCRnet16.mgn;exit;"
 ' > ./n16mcr.sh
 chmod 777 ./n16mcr.sh
 
