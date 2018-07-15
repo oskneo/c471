@@ -2,6 +2,12 @@
 MCA1="224.5.5.5"
 P1="5678"
 
+join_time=1
+sending_duration=10
+time_for_one_packet=2
+hz_of_sending_packet=$((1/time_for_one_packet))
+leave_time=$((join_time+sending_duration+2))
+
 read -p "Please enter your password:" password
 
 echo "echo $password" > ./password
@@ -9,32 +15,32 @@ chmod 777 ./password
 
 
 #Choose April as PCnet16
-echo '
-export SSH_ASKPASS="./password"
+echo "
+export SSH_ASKPASS='./password'
 export DISPLAY=YOURDOINGITWRONG
-setsid ssh april "tshark -i eth1 -a duration:15 -w n16.pcap;exit;"
+setsid ssh april 'tshark -i eth1 -a duration:15 -w n16.pcap;exit;'
 
-export SSH_ASKPASS="./password"
+export SSH_ASKPASS='./password'
 setsid sftp april << !
  get n16.pcap
  quit
 !
 
-# export SSH_ASKPASS="./password"
+# export SSH_ASKPASS='./password'
 # export DISPLAY=YOURDOINGITWRONG
-# setsid ssh april "rm n16.pcap;exit;"
+# setsid ssh april 'rm n16.pcap;exit;'
 
 
 
 
-' > ./n16pc.sh
+" > ./n16pc.sh
 chmod 777 ./n16pc.sh
 
 
 #Choose June as MCRnet16
 
 echo "
-0.0 JOIN $MCA1 PORT $P1
+1.0 JOIN $MCA1 PORT $P1
 10.0 LEAVE $MCA1 PORT $P1
 
 " > ./MCRnet16.mgn
@@ -76,7 +82,7 @@ setsid sftp september << !
 
 export SSH_ASKPASS="./password"
 export DISPLAY=YOURDOINGITWRONG
-setsid ssh september "mgen input MCSnet16.mgn;rm MCRnet16.mgn;exit;"
+setsid ssh september "mgen input MCSnet16.mgn;rm MCSnet16.mgn;exit;"
 ' > ./n16mcs.sh
 chmod 777 ./n16mcs.sh
 
