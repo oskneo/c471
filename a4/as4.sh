@@ -11,11 +11,7 @@ chmod 777 ./password
 echo '
 export SSH_ASKPASS="./password"
 export DISPLAY=YOURDOINGITWRONG
-setsid ssh april
-
-tshark -i eth1 -a duration:15 -w n16.pcap
-
-exit
+setsid ssh april "tshark -i eth1 -a duration:15 -w n16.pcap;"
 ' > ./n16pc.sh
 chmod 777 ./n16pc.sh
 
@@ -49,4 +45,4 @@ chmod 777 ./n16mcr.sh
 
 
 ./n16pc.sh &
-./n16mcr.sh &
+#./n16mcr.sh &
