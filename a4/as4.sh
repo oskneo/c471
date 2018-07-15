@@ -20,9 +20,9 @@ setsid sftp april << !
  quit
 !
 
-export SSH_ASKPASS="./password"
-export DISPLAY=YOURDOINGITWRONG
-setsid ssh april "rm n16.pcap;exit;"
+# export SSH_ASKPASS="./password"
+# export DISPLAY=YOURDOINGITWRONG
+# setsid ssh april "rm n16.pcap;exit;"
 
 
 
@@ -56,5 +56,45 @@ setsid ssh june "mgen input MCRnet16.mgn;rm MCRnet16.mgn;exit;"
 chmod 777 ./n16mcr.sh
 
 
+
+#Choose September as MCSnet16
+
+echo "
+2.0 ON 1 UDP SRC $P1 DST $MCA1/$P1 PERIODIC [0.5 512] COUNT 3
+
+" > ./MCSnet16.mgn
+chmod 777 ./MCSnet16.mgn
+
+
+
+echo '
+export SSH_ASKPASS="./password"
+setsid sftp september << !
+ put MCSnet16.mgn
+ quit
+!
+
+export SSH_ASKPASS="./password"
+export DISPLAY=YOURDOINGITWRONG
+setsid ssh september "mgen input MCSnet16.mgn;rm MCRnet16.mgn;exit;"
+' > ./n16mcs.sh
+chmod 777 ./n16mcs.sh
+
+
+
+
+
+
 ./n16pc.sh &
 ./n16mcr.sh &
+./n16mcs.sh &
+
+
+
+
+rm ./n16pc.sh
+rm ./n16mcr.sh
+rm ./n16mcs.sh
+rm ./password
+
+echo "Finished!\n"
