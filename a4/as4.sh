@@ -29,11 +29,9 @@ chmod 777 ./MCRnet16.mgn
 
 echo '
 
+LFTP_PASSWORD="$password"
+lftp --env-password sftp://june  -e "put MCRnet16.mgn; bye"
 
-sshpass -p $password sftp june << !
- put MCRnet16.mgn
- quit
-!
 
 export SSH_ASKPASS="./password"
 export DISPLAY=YOURDOINGITWRONG
