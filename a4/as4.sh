@@ -28,13 +28,15 @@ chmod 777 ./MCRnet16.mgn
 
 
 echo '
-export SSH_ASKPASS="./password"
-export DISPLAY=YOURDOINGITWRONG
 
-setsid sftp june << !
+
+sshpass -p $password sftp june << !
  put MCRnet16.mgn
  quit
 !
+
+export SSH_ASKPASS="./password"
+export DISPLAY=YOURDOINGITWRONG
 setsid ssh june "mgen input MCRnet16.mgn;exit;"
 ' > ./n16mcr.sh
 chmod 777 ./n16mcr.sh
