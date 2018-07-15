@@ -20,8 +20,8 @@ chmod 777 ./n16pc.sh
 #Choose June as MCRnet16
 
 echo "
-0.0 JOIN $MCA1 INTERFACE eth1 PORT $P1
-10.0 LEAVE $MCA1
+0.0 JOIN $MCA1 PORT $P1
+10.0 LEAVE $MCA1 PORT $P1
 
 " > ./MCRnet16.mgn
 chmod 777 ./MCRnet16.mgn
