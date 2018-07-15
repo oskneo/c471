@@ -42,5 +42,5 @@ setsid ssh june "mgen input MCRnet16.mgn;exit;"
 chmod 777 ./n16mcr.sh
 
 
-#./n16pc.sh &
+./n16pc.sh &
 ./n16mcr.sh &
