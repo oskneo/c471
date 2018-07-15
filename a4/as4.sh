@@ -90,6 +90,13 @@ chmod 777 ./n16mcs.sh
 ./n16mcs.sh &
 
 
+for pids in `jobs -p`
+do
+echo $pids
+    wait $pids
+done
+
+
 
 
 rm ./n16pc.sh
