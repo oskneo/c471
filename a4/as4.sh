@@ -4,7 +4,7 @@ P1="5678"
 #Multicast address of group MCA1 and port
 
 
-join_time=10
+join_time=60
 start_sending_time=$((join_time+60))
 sending_duration=60
 hz_of_sending_packet="0.5"
@@ -41,7 +41,7 @@ setsid ssh april 'exit;'
 
 export SSH_ASKPASS='./password'
 export DISPLAY=YOURDOINGITWRONG
-setsid ssh april 'tshark -i eth1 -a duration:$((leave_time+20)) -w PCnet16.pcap;exit;'
+setsid ssh april 'tshark -i eth1 -a duration:$((leave_time+60)) -w PCnet16.pcap;exit;'
 
 #Use tshark instead of wireshark to capture packets automatically.
 
