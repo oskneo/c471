@@ -5,12 +5,12 @@ P1="5678"
 
 
 join_time=10
-start_sending_time=$((join_time+2))
-sending_duration=40
+start_sending_time=$((join_time+60))
+sending_duration=60
 hz_of_sending_packet="0.5"
 time_for_one_packet=2
 packet_count=$((sending_duration/time_for_one_packet))
-leave_time=$((start_sending_time+sending_duration+2))
+leave_time=$((start_sending_time+sending_duration+60))
 #Calcultation about the time
 
 read -p "Please enter your password:" password
@@ -37,11 +37,11 @@ export SSH_ASKPASS='./ECDSA_Pass'
 setsid ssh april 'exit;'
 
 #Try to enter 'yes' to pass ECDSA. If source host has logged in the destined host,
-#broken pipe will be mentioned. This message can be ignored.
+#permission denied will be mentioned. This message can be ignored.
 
 export SSH_ASKPASS='./password'
 export DISPLAY=YOURDOINGITWRONG
-setsid ssh april 'tshark -i eth1 -a duration:$((leave_time+6)) -w PCnet16.pcap;exit;'
+setsid ssh april 'tshark -i eth1 -a duration:$((leave_time+20)) -w PCnet16.pcap;exit;'
 
 #Use tshark instead of wireshark to capture packets automatically.
 
