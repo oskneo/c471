@@ -4,7 +4,7 @@ P1="5678"
 
 join_time=1
 start_sending_time=$((join_time+1))
-sending_duration=10
+sending_duration=60
 hz_of_sending_packet="0.5"
 time_for_one_packet=2
 packet_count=$((sending_duration/time_for_one_packet))
@@ -20,7 +20,7 @@ chmod 777 ./password
 echo "
 export SSH_ASKPASS='./password'
 export DISPLAY=YOURDOINGITWRONG
-setsid ssh april 'tshark -i eth1 -a duration:$sending_duration -w n16.pcap;exit;'
+setsid ssh april 'tshark -i eth1 -a duration:$((leave_time+3)) -w n16.pcap;exit;'
 
 export SSH_ASKPASS='./password'
 setsid sftp april << !
@@ -44,7 +44,7 @@ chmod 777 ./n16pc.sh
 echo "
 export SSH_ASKPASS='./password'
 export DISPLAY=YOURDOINGITWRONG
-setsid ssh november 'tshark -i eth1 -a duration:$sending_duration -w n17.pcap;exit;'
+setsid ssh november 'tshark -i eth1 -a duration:$((leave_time+3)) -w n17.pcap;exit;'
 
 export SSH_ASKPASS='./password'
 setsid sftp november << !
@@ -67,7 +67,7 @@ chmod 777 ./n17pc.sh
 echo "
 export SSH_ASKPASS='./password'
 export DISPLAY=YOURDOINGITWRONG
-setsid ssh july 'tshark -i eth1 -a duration:$sending_duration -w n18.pcap;exit;'
+setsid ssh july 'tshark -i eth1 -a duration:$((leave_time+3)) -w n18.pcap;exit;'
 
 export SSH_ASKPASS='./password'
 setsid sftp july << !
@@ -90,7 +90,7 @@ chmod 777 ./n18pc.sh
 echo "
 export SSH_ASKPASS='./password'
 export DISPLAY=YOURDOINGITWRONG
-setsid ssh october 'tshark -i eth1 -a duration:$sending_duration -w n19.pcap;exit;'
+setsid ssh october 'tshark -i eth1 -a duration:$((leave_time+3)) -w n19.pcap;exit;'
 
 export SSH_ASKPASS='./password'
 setsid sftp october << !
