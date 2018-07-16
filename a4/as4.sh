@@ -33,7 +33,7 @@ setsid sftp april << !
 # setsid ssh april 'rm n16.pcap;exit;'
 
 
-
+echo 'n16pc.sh ends!'
 
 " > ./n16pc.sh
 chmod 777 ./n16pc.sh
@@ -57,7 +57,7 @@ setsid sftp november << !
 # setsid ssh april 'rm n16.pcap;exit;'
 
 
-
+echo 'n17pc.sh ends!'
 
 " > ./n17pc.sh
 chmod 777 ./n17pc.sh
@@ -80,7 +80,7 @@ setsid sftp july << !
 # setsid ssh april 'rm n16.pcap;exit;'
 
 
-
+echo 'n18pc.sh ends!'
 
 " > ./n18pc.sh
 chmod 777 ./n18pc.sh
@@ -102,7 +102,7 @@ setsid sftp october << !
 # export DISPLAY=YOURDOINGITWRONG
 # setsid ssh april 'rm n16.pcap;exit;'
 
-
+echo 'n19pc.sh ends!'
 
 
 " > ./n19pc.sh
@@ -135,6 +135,8 @@ setsid sftp june << !
 export SSH_ASKPASS="./password"
 export DISPLAY=YOURDOINGITWRONG
 setsid ssh june "mgen input MCRnet.mgn;rm MCRnet.mgn;exit;"
+
+echo "n16mcr.sh ends!"
 ' > ./n16mcr.sh
 chmod 777 ./n16mcr.sh
 
@@ -151,6 +153,8 @@ setsid sftp may << !
 export SSH_ASKPASS="./password"
 export DISPLAY=YOURDOINGITWRONG
 setsid ssh may "mgen input MCRnet.mgn;rm MCRnet.mgn;exit;"
+
+echo "n18mcr.sh ends!"
 ' > ./n18mcr.sh
 chmod 777 ./n18mcr.sh
 
@@ -167,6 +171,8 @@ setsid sftp year << !
 export SSH_ASKPASS="./password"
 export DISPLAY=YOURDOINGITWRONG
 setsid ssh year "mgen input MCRnet.mgn;rm MCRnet.mgn;exit;"
+
+echo "n19mcr.sh ends!"
 ' > ./n19mcr.sh
 chmod 777 ./n19mcr.sh
 #====
@@ -182,6 +188,8 @@ setsid sftp august << !
 export SSH_ASKPASS="./password"
 export DISPLAY=YOURDOINGITWRONG
 setsid ssh august "mgen input MCRnet.mgn;rm MCRnet.mgn;exit;"
+
+echo "n17mcr.sh ends!"
 ' > ./n17mcr.sh
 chmod 777 ./n17mcr.sh
 
@@ -198,6 +206,7 @@ setsid sftp spring << !
 export SSH_ASKPASS="./password"
 export DISPLAY=YOURDOINGITWRONG
 setsid ssh spring "mgen input MCRnet.mgn;rm MCRnet.mgn;exit;"
+echo "n17_2mcr.sh ends!"
 ' > ./n17_2mcr.sh
 chmod 777 ./n17_2mcr.sh
 #=================================================================================
@@ -237,6 +246,8 @@ setsid sftp september << !
 export SSH_ASKPASS="./password"
 export DISPLAY=YOURDOINGITWRONG
 setsid ssh september "mgen input MCSnet.mgn;rm MCSnet.mgn;exit;"
+
+echo "n16mcs.sh ends!"
 ' > ./n16mcs.sh
 chmod 777 ./n16mcs.sh
 
@@ -255,6 +266,8 @@ setsid sftp autumn << !
 export SSH_ASKPASS="./password"
 export DISPLAY=YOURDOINGITWRONG
 setsid ssh autumn "mgen input MCSnet.mgn;rm MCSnet.mgn;exit;"
+
+echo "n17mcs.sh ends!"
 ' > ./n17mcs.sh
 chmod 777 ./n17mcs.sh
 
@@ -272,6 +285,8 @@ setsid sftp winter << !
 export SSH_ASKPASS="./password"
 export DISPLAY=YOURDOINGITWRONG
 setsid ssh winter "mgen input MCSnet.mgn;rm MCSnet.mgn;exit;"
+
+echo "n18mcs.sh ends!"
 ' > ./n18mcs.sh
 chmod 777 ./n18mcs.sh
 
@@ -290,6 +305,8 @@ setsid sftp solstice << !
 export SSH_ASKPASS="./password"
 export DISPLAY=YOURDOINGITWRONG
 setsid ssh solstice "mgen input MCSnet.mgn;rm MCSnet.mgn;exit;"
+
+echo "n19mcs.sh ends!"
 ' > ./n19mcs.sh
 chmod 777 ./n19mcs.sh
 
@@ -334,5 +351,18 @@ rm ./n16pc.sh
 rm ./n16mcr.sh
 rm ./n16mcs.sh
 rm ./password
+rm ./n17pc.sh 
+rm ./n17mcr.sh 
+rm ./n17_2mcr.sh
+rm ./n17mcs.sh 
+
+rm ./n18pc.sh 
+rm ./n18mcr.sh
+rm ./n18mcs.sh
+
+
+rm ./n19pc.sh
+rm ./n19mcr.sh
+rm ./n19mcs.sh
 
 echo "Finished!"
