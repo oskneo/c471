@@ -4,13 +4,13 @@ P1="5678"
 #Multicast address of group MCA1 and port
 
 
-join_time=1
-start_sending_time=$((join_time+1))
-sending_duration=60
+join_time=10
+start_sending_time=$((join_time+4))
+sending_duration=40
 hz_of_sending_packet="0.5"
 time_for_one_packet=2
 packet_count=$((sending_duration/time_for_one_packet))
-leave_time=$((start_sending_time+sending_duration+2))
+leave_time=$((start_sending_time+sending_duration+3))
 #Calcultation about the time
 
 read -p "Please enter your password:" password
