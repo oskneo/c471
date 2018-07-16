@@ -15,7 +15,7 @@ echo "echo $password" > ./password
 chmod 777 ./password
 
 
-echo "yes" > ./ECDSA_Pass
+echo "echo 'yes'" > ./ECDSA_Pass
 chmod 777 ./ECDSA_Pass
 
 #Step 0 for capturing
