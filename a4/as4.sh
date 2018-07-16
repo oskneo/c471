@@ -11,7 +11,6 @@ packet_count=$((sending_duration/time_for_one_packet))
 leave_time=$((start_sending_time+sending_duration+2))
 
 read -p "Please enter your password:" password
-rerrrrrrrrrrrrrrrrrrr
 echo "echo $password" > ./password
 chmod 777 ./password
 
@@ -139,7 +138,7 @@ setsid ssh june "mgen input MCRnet.mgn;rm MCRnet.mgn;exit;"
 ' > ./n16mcr.sh
 chmod 777 ./n16mcr.sh
 
-===
+#===
 #Choose May as MCRnet18
 
 echo '
@@ -155,7 +154,7 @@ setsid ssh may "mgen input MCRnet.mgn;rm MCRnet.mgn;exit;"
 ' > ./n18mcr.sh
 chmod 777 ./n18mcr.sh
 
-====
+#====
 #Choose year as MCRnet19
 
 echo '
@@ -170,7 +169,7 @@ export DISPLAY=YOURDOINGITWRONG
 setsid ssh year "mgen input MCRnet.mgn;rm MCRnet.mgn;exit;"
 ' > ./n19mcr.sh
 chmod 777 ./n19mcr.sh
-====
+#====
 #Choose August as MCR1net17
 
 echo '
@@ -186,7 +185,7 @@ setsid ssh august "mgen input MCRnet.mgn;rm MCRnet.mgn;exit;"
 ' > ./n17mcr.sh
 chmod 777 ./n17mcr.sh
 
-===
+#===
 #Choose Spring as MCR2net17
 
 echo '
@@ -201,7 +200,7 @@ export DISPLAY=YOURDOINGITWRONG
 setsid ssh spring "mgen input MCRnet.mgn;rm MCRnet.mgn;exit;"
 ' > ./n17_2mcr.sh
 chmod 777 ./n17_2mcr.sh
-=================================================================================
+#=================================================================================
 
 
 
