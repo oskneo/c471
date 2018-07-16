@@ -236,7 +236,7 @@ setsid sftp september << !
 
 export SSH_ASKPASS="./password"
 export DISPLAY=YOURDOINGITWRONG
-setsid ssh september "mgen input MCSnet.mgn;rm MCSnet16.mgn;exit;"
+setsid ssh september "mgen input MCSnet.mgn;rm MCSnet.mgn;exit;"
 ' > ./n16mcs.sh
 chmod 777 ./n16mcs.sh
 
