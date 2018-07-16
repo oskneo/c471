@@ -14,10 +14,19 @@ read -p "Please enter your password:" password
 echo "echo $password" > ./password
 chmod 777 ./password
 
+
+echo "yes" > ./ECDSA_Pass
+chmod 777 ./ECDSA_Pass
+
 #Step 0 for capturing
 
 #Choose April as PCnet16
 echo "
+export SSH_ASKPASS='./ECDSA_Pass'
+setsid ssh april 'exit;'
+
+
+
 export SSH_ASKPASS='./password'
 export DISPLAY=YOURDOINGITWRONG
 setsid ssh april 'tshark -i eth1 -a duration:$((leave_time+3)) -w n16.pcap;exit;'
@@ -42,6 +51,10 @@ chmod 777 ./n16pc.sh
 
 #Choose November as PCnet17
 echo "
+
+export SSH_ASKPASS='./ECDSA_Pass'
+setsid ssh november 'exit;'
+
 export SSH_ASKPASS='./password'
 export DISPLAY=YOURDOINGITWRONG
 setsid ssh november 'tshark -i eth1 -a duration:$((leave_time+3)) -w n17.pcap;exit;'
@@ -65,6 +78,10 @@ chmod 777 ./n17pc.sh
 
 #Choose July as PCnet18
 echo "
+
+export SSH_ASKPASS='./ECDSA_Pass'
+setsid ssh july 'exit;'
+
 export SSH_ASKPASS='./password'
 export DISPLAY=YOURDOINGITWRONG
 setsid ssh july 'tshark -i eth1 -a duration:$((leave_time+3)) -w n18.pcap;exit;'
@@ -88,6 +105,10 @@ chmod 777 ./n18pc.sh
 
 #Choose October as PCnet19
 echo "
+export SSH_ASKPASS='./ECDSA_Pass'
+setsid ssh october 'exit;'
+
+
 export SSH_ASKPASS='./password'
 export DISPLAY=YOURDOINGITWRONG
 setsid ssh october 'tshark -i eth1 -a duration:$((leave_time+3)) -w n19.pcap;exit;'
@@ -126,6 +147,10 @@ $leave_time LEAVE $MCA1 PORT $P1
 chmod 777 ./MCRnet.mgn
 
 echo '
+
+export SSH_ASKPASS="./ECDSA_Pass"
+setsid ssh june "exit;"
+
 export SSH_ASKPASS="./password"
 setsid sftp june << !
  put MCRnet.mgn
@@ -144,6 +169,10 @@ chmod 777 ./n16mcr.sh
 #Choose May as MCRnet18
 
 echo '
+
+export SSH_ASKPASS="./ECDSA_Pass"
+setsid ssh may "exit;"
+
 export SSH_ASKPASS="./password"
 setsid sftp may << !
  put MCRnet.mgn
@@ -162,6 +191,10 @@ chmod 777 ./n18mcr.sh
 #Choose year as MCRnet19
 
 echo '
+
+export SSH_ASKPASS="./ECDSA_Pass"
+setsid ssh year "exit;"
+
 export SSH_ASKPASS="./password"
 setsid sftp year << !
  put MCRnet.mgn
@@ -179,6 +212,10 @@ chmod 777 ./n19mcr.sh
 #Choose August as MCR1net17
 
 echo '
+
+export SSH_ASKPASS="./ECDSA_Pass"
+setsid ssh august "exit;"
+
 export SSH_ASKPASS="./password"
 setsid sftp august << !
  put MCRnet.mgn
@@ -197,6 +234,10 @@ chmod 777 ./n17mcr.sh
 #Choose Spring as MCR2net17
 
 echo '
+
+export SSH_ASKPASS="./ECDSA_Pass"
+setsid ssh spring "exit;"
+
 export SSH_ASKPASS="./password"
 setsid sftp spring << !
  put MCRnet.mgn
@@ -237,6 +278,10 @@ chmod 777 ./MCSnet.mgn
 
 
 echo '
+
+export SSH_ASKPASS="./ECDSA_Pass"
+setsid ssh september "exit;"
+
 export SSH_ASKPASS="./password"
 setsid sftp september << !
  put MCSnet.mgn
@@ -257,6 +302,10 @@ chmod 777 ./n16mcs.sh
 
 
 echo '
+
+export SSH_ASKPASS="./ECDSA_Pass"
+setsid ssh autumn "exit;"
+
 export SSH_ASKPASS="./password"
 setsid sftp autumn << !
  put MCSnet.mgn
@@ -276,6 +325,10 @@ chmod 777 ./n17mcs.sh
 
 
 echo '
+
+export SSH_ASKPASS="./ECDSA_Pass"
+setsid ssh winter "exit;"
+
 export SSH_ASKPASS="./password"
 setsid sftp winter << !
  put MCSnet.mgn
@@ -296,6 +349,10 @@ chmod 777 ./n18mcs.sh
 
 
 echo '
+
+export SSH_ASKPASS="./ECDSA_Pass"
+setsid ssh solstice "exit;"
+
 export SSH_ASKPASS="./password"
 setsid sftp solstice << !
  put MCSnet.mgn
