@@ -71,7 +71,7 @@ setsid ssh july 'tshark -i eth1 -a duration:$sending_duration -w n18.pcap;exit;'
 
 export SSH_ASKPASS='./password'
 setsid sftp july << !
- get n16.pcap
+ get n18.pcap
  quit
 !
 
