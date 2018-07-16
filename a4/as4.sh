@@ -1,6 +1,8 @@
 #!/bin/bash
 MCA1="224.5.5.5"
 P1="5678"
+#Multicast address of group MCA1 and port
+
 
 join_time=1
 start_sending_time=$((join_time+1))
@@ -9,27 +11,38 @@ hz_of_sending_packet="0.5"
 time_for_one_packet=2
 packet_count=$((sending_duration/time_for_one_packet))
 leave_time=$((start_sending_time+sending_duration+2))
+#Calcultation about the time
 
 read -p "Please enter your password:" password
 echo "echo $password" > ./password
 chmod 777 ./password
 
+#Prepare for entering password of ssh by echoing the yess and password at other script
 
 echo "echo 'yes'" > ./ECDSA_Pass
 chmod 777 ./ECDSA_Pass
 
+
+
 #Step 0 for capturing
 
 #Choose April as PCnet16
+
+
+#Create new bash scripts to run the scripts at background 
+#in order to use new processes parallelly to capture, join,
+#leave and send packets at the same time.
 echo "
 export SSH_ASKPASS='./ECDSA_Pass'
 setsid ssh april 'exit;'
 
-
+#Try to enter 'yes' to pass ECDSA
 
 export SSH_ASKPASS='./password'
 export DISPLAY=YOURDOINGITWRONG
 setsid ssh april 'tshark -i eth1 -a duration:$((leave_time+3)) -w PCnet16.pcap;exit;'
+
+#Use tshark instead of wireshark to capture packets automatically.
 
 export SSH_ASKPASS='./password'
 setsid sftp april << !
@@ -37,9 +50,9 @@ setsid sftp april << !
  quit
 !
 
-# export SSH_ASKPASS='./password'
-# export DISPLAY=YOURDOINGITWRONG
-# setsid ssh april 'rm PCnet16.pcap;exit;'
+#Get the capture file from netlab.
+
+
 
 
 echo 'PCnet16.sh ends!'
@@ -65,9 +78,9 @@ setsid sftp november << !
  quit
 !
 
-# export SSH_ASKPASS='./password'
-# export DISPLAY=YOURDOINGITWRONG
-# setsid ssh april 'rm PCnet16.pcap;exit;'
+
+
+
 
 
 echo 'PCnet17.sh ends!'
@@ -92,9 +105,9 @@ setsid sftp july << !
  quit
 !
 
-# export SSH_ASKPASS='./password'
-# export DISPLAY=YOURDOINGITWRONG
-# setsid ssh april 'rm PCnet16.pcap;exit;'
+
+
+
 
 
 echo 'PCnet18.sh ends!'
@@ -119,9 +132,9 @@ setsid sftp october << !
  quit
 !
 
-# export SSH_ASKPASS='./password'
-# export DISPLAY=YOURDOINGITWRONG
-# setsid ssh april 'rm PCnet16.pcap;exit;'
+
+
+
 
 echo 'PCnet19.sh ends!'
 
@@ -134,7 +147,7 @@ chmod 777 ./PCnet19.sh
 
 
 
-
+#Step 2 and 3
 
 
 #Choose June as MCRnet16
@@ -145,6 +158,8 @@ $leave_time LEAVE $MCA1 PORT $P1
 
 " > ./MCRnet.mgn
 chmod 777 ./MCRnet.mgn
+
+#Create the mgn file to join the multicast group MCA1 and leave it.
 
 echo '
 
@@ -157,6 +172,8 @@ setsid sftp june << !
  quit
 !
 
+#Send the mgn file to desired host.
+
 export SSH_ASKPASS="./password"
 export DISPLAY=YOURDOINGITWRONG
 setsid ssh june "mgen input MCRnet.mgn;rm MCRnet.mgn;exit;"
@@ -165,7 +182,10 @@ echo "MCR1net16.sh ends!"
 ' > ./MCR1net16.sh
 chmod 777 ./MCR1net16.sh
 
-#===
+#Run the mgen to send membership reports and queries.  
+
+
+
 #Choose May as MCRnet18
 
 echo '
@@ -260,7 +280,7 @@ chmod 777 ./MCR2net17.sh
 
 
 
-
+#Step 1 and 4
 
 
 
@@ -275,7 +295,7 @@ $start_sending_time ON 1 UDP SRC $P1 DST $MCA1/$P1 PERIODIC [$hz_of_sending_pack
 " > ./MCSnet.mgn
 chmod 777 ./MCSnet.mgn
 
-
+#Create mgn file to sne UDP packets to multicast group MCA1
 
 echo '
 
@@ -288,6 +308,8 @@ setsid sftp september << !
  quit
 !
 
+#Send the mgn file to desired host.
+
 export SSH_ASKPASS="./password"
 export DISPLAY=YOURDOINGITWRONG
 setsid ssh september "mgen input MCSnet.mgn;rm MCSnet.mgn;exit;"
@@ -295,6 +317,7 @@ setsid ssh september "mgen input MCSnet.mgn;rm MCSnet.mgn;exit;"
 echo "MCSnet16.sh ends!"
 ' > ./MCSnet16.sh
 chmod 777 ./MCSnet16.sh
+#Run mgen at desired host to send UDP packets.
 
 
 #Choose Autumn as MCSnet17
@@ -370,7 +393,7 @@ chmod 777 ./MCSnet19.sh
 
 
 
-
+#Run the bash scripts in background parallelly.
 
 
 
@@ -393,7 +416,7 @@ chmod 777 ./MCSnet19.sh
 ./MCSnet19.sh &
 
 
-
+#Wait the above processes in the background to finish.
 
 for pids in `jobs -p`
 do
@@ -401,7 +424,7 @@ echo $pids
     wait $pids
 done
 
-
+#Then delete the useless files.
 
 
 rm ./PCnet16.sh
