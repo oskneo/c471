@@ -29,23 +29,23 @@ setsid ssh april 'exit;'
 
 export SSH_ASKPASS='./password'
 export DISPLAY=YOURDOINGITWRONG
-setsid ssh april 'tshark -i eth1 -a duration:$((leave_time+3)) -w n16.pcap;exit;'
+setsid ssh april 'tshark -i eth1 -a duration:$((leave_time+3)) -w PCnet16.pcap;exit;'
 
 export SSH_ASKPASS='./password'
 setsid sftp april << !
- get n16.pcap
+ get PCnet16.pcap
  quit
 !
 
 # export SSH_ASKPASS='./password'
 # export DISPLAY=YOURDOINGITWRONG
-# setsid ssh april 'rm n16.pcap;exit;'
+# setsid ssh april 'rm PCnet16.pcap;exit;'
 
 
-echo 'n16pc.sh ends!'
+echo 'PCnet16.sh ends!'
 
-" > ./n16pc.sh
-chmod 777 ./n16pc.sh
+" > ./PCnet16.sh
+chmod 777 ./PCnet16.sh
 
 
 
@@ -57,23 +57,23 @@ setsid ssh november 'exit;'
 
 export SSH_ASKPASS='./password'
 export DISPLAY=YOURDOINGITWRONG
-setsid ssh november 'tshark -i eth1 -a duration:$((leave_time+3)) -w n17.pcap;exit;'
+setsid ssh november 'tshark -i eth1 -a duration:$((leave_time+3)) -w PCnet17.pcap;exit;'
 
 export SSH_ASKPASS='./password'
 setsid sftp november << !
- get n17.pcap
+ get PCnet17.pcap
  quit
 !
 
 # export SSH_ASKPASS='./password'
 # export DISPLAY=YOURDOINGITWRONG
-# setsid ssh april 'rm n16.pcap;exit;'
+# setsid ssh april 'rm PCnet16.pcap;exit;'
 
 
-echo 'n17pc.sh ends!'
+echo 'PCnet17.sh ends!'
 
-" > ./n17pc.sh
-chmod 777 ./n17pc.sh
+" > ./PCnet17.sh
+chmod 777 ./PCnet17.sh
 
 
 #Choose July as PCnet18
@@ -84,23 +84,23 @@ setsid ssh july 'exit;'
 
 export SSH_ASKPASS='./password'
 export DISPLAY=YOURDOINGITWRONG
-setsid ssh july 'tshark -i eth1 -a duration:$((leave_time+3)) -w n18.pcap;exit;'
+setsid ssh july 'tshark -i eth1 -a duration:$((leave_time+3)) -w PCnet18.pcap;exit;'
 
 export SSH_ASKPASS='./password'
 setsid sftp july << !
- get n18.pcap
+ get PCnet18.pcap
  quit
 !
 
 # export SSH_ASKPASS='./password'
 # export DISPLAY=YOURDOINGITWRONG
-# setsid ssh april 'rm n16.pcap;exit;'
+# setsid ssh april 'rm PCnet16.pcap;exit;'
 
 
-echo 'n18pc.sh ends!'
+echo 'PCnet18.sh ends!'
 
-" > ./n18pc.sh
-chmod 777 ./n18pc.sh
+" > ./PCnet18.sh
+chmod 777 ./PCnet18.sh
 
 
 #Choose October as PCnet19
@@ -111,23 +111,23 @@ setsid ssh october 'exit;'
 
 export SSH_ASKPASS='./password'
 export DISPLAY=YOURDOINGITWRONG
-setsid ssh october 'tshark -i eth1 -a duration:$((leave_time+3)) -w n19.pcap;exit;'
+setsid ssh october 'tshark -i eth1 -a duration:$((leave_time+3)) -w PCnet19.pcap;exit;'
 
 export SSH_ASKPASS='./password'
 setsid sftp october << !
- get n19.pcap
+ get PCnet19.pcap
  quit
 !
 
 # export SSH_ASKPASS='./password'
 # export DISPLAY=YOURDOINGITWRONG
-# setsid ssh april 'rm n16.pcap;exit;'
+# setsid ssh april 'rm PCnet16.pcap;exit;'
 
-echo 'n19pc.sh ends!'
+echo 'PCnet19.sh ends!'
 
 
-" > ./n19pc.sh
-chmod 777 ./n19pc.sh
+" > ./PCnet19.sh
+chmod 777 ./PCnet19.sh
 
 
 
@@ -161,9 +161,9 @@ export SSH_ASKPASS="./password"
 export DISPLAY=YOURDOINGITWRONG
 setsid ssh june "mgen input MCRnet.mgn;rm MCRnet.mgn;exit;"
 
-echo "n16mcr.sh ends!"
-' > ./n16mcr.sh
-chmod 777 ./n16mcr.sh
+echo "MCR1net16.sh ends!"
+' > ./MCR1net16.sh
+chmod 777 ./MCR1net16.sh
 
 #===
 #Choose May as MCRnet18
@@ -183,9 +183,9 @@ export SSH_ASKPASS="./password"
 export DISPLAY=YOURDOINGITWRONG
 setsid ssh may "mgen input MCRnet.mgn;rm MCRnet.mgn;exit;"
 
-echo "n18mcr.sh ends!"
-' > ./n18mcr.sh
-chmod 777 ./n18mcr.sh
+echo "MCR1net18.sh ends!"
+' > ./MCR1net18.sh
+chmod 777 ./MCR1net18.sh
 
 #====
 #Choose year as MCRnet19
@@ -205,9 +205,9 @@ export SSH_ASKPASS="./password"
 export DISPLAY=YOURDOINGITWRONG
 setsid ssh year "mgen input MCRnet.mgn;rm MCRnet.mgn;exit;"
 
-echo "n19mcr.sh ends!"
-' > ./n19mcr.sh
-chmod 777 ./n19mcr.sh
+echo "MCR1net19.sh ends!"
+' > ./MCR1net19.sh
+chmod 777 ./MCR1net19.sh
 #====
 #Choose August as MCR1net17
 
@@ -226,9 +226,9 @@ export SSH_ASKPASS="./password"
 export DISPLAY=YOURDOINGITWRONG
 setsid ssh august "mgen input MCRnet.mgn;rm MCRnet.mgn;exit;"
 
-echo "n17mcr.sh ends!"
-' > ./n17mcr.sh
-chmod 777 ./n17mcr.sh
+echo "MCR1net17.sh ends!"
+' > ./MCR1net17.sh
+chmod 777 ./MCR1net17.sh
 
 #===
 #Choose Spring as MCR2net17
@@ -247,9 +247,9 @@ setsid sftp spring << !
 export SSH_ASKPASS="./password"
 export DISPLAY=YOURDOINGITWRONG
 setsid ssh spring "mgen input MCRnet.mgn;rm MCRnet.mgn;exit;"
-echo "n17_2mcr.sh ends!"
-' > ./n17_2mcr.sh
-chmod 777 ./n17_2mcr.sh
+echo "MCR2net17.sh ends!"
+' > ./MCR2net17.sh
+chmod 777 ./MCR2net17.sh
 #=================================================================================
 
 
@@ -292,9 +292,9 @@ export SSH_ASKPASS="./password"
 export DISPLAY=YOURDOINGITWRONG
 setsid ssh september "mgen input MCSnet.mgn;rm MCSnet.mgn;exit;"
 
-echo "n16mcs.sh ends!"
-' > ./n16mcs.sh
-chmod 777 ./n16mcs.sh
+echo "MCSnet16.sh ends!"
+' > ./MCSnet16.sh
+chmod 777 ./MCSnet16.sh
 
 
 #Choose Autumn as MCSnet17
@@ -316,9 +316,9 @@ export SSH_ASKPASS="./password"
 export DISPLAY=YOURDOINGITWRONG
 setsid ssh autumn "mgen input MCSnet.mgn;rm MCSnet.mgn;exit;"
 
-echo "n17mcs.sh ends!"
-' > ./n17mcs.sh
-chmod 777 ./n17mcs.sh
+echo "MCSnet17.sh ends!"
+' > ./MCSnet17.sh
+chmod 777 ./MCSnet17.sh
 
 #Choose Winter as MCSnet18
 
@@ -339,9 +339,9 @@ export SSH_ASKPASS="./password"
 export DISPLAY=YOURDOINGITWRONG
 setsid ssh winter "mgen input MCSnet.mgn;rm MCSnet.mgn;exit;"
 
-echo "n18mcs.sh ends!"
-' > ./n18mcs.sh
-chmod 777 ./n18mcs.sh
+echo "MCSnet18.sh ends!"
+' > ./MCSnet18.sh
+chmod 777 ./MCSnet18.sh
 
 
 #Choose Solstice as MCSnet19
@@ -363,9 +363,9 @@ export SSH_ASKPASS="./password"
 export DISPLAY=YOURDOINGITWRONG
 setsid ssh solstice "mgen input MCSnet.mgn;rm MCSnet.mgn;exit;"
 
-echo "n19mcs.sh ends!"
-' > ./n19mcs.sh
-chmod 777 ./n19mcs.sh
+echo "MCSnet19.sh ends!"
+' > ./MCSnet19.sh
+chmod 777 ./MCSnet19.sh
 
 
 
@@ -374,23 +374,23 @@ chmod 777 ./n19mcs.sh
 
 
 
-./n16pc.sh &
-./n16mcr.sh &
-./n16mcs.sh &
+./PCnet16.sh &
+./MCR1net16.sh &
+./MCSnet16.sh &
 
-./n17pc.sh &
-./n17mcr.sh &
-./n17_2mcr.sh &
-./n17mcs.sh &
+./PCnet17.sh &
+./MCR1net17.sh &
+./MCR2net17.sh &
+./MCSnet17.sh &
 
-./n18pc.sh &
-./n18mcr.sh &
-./n18mcs.sh &
+./PCnet18.sh &
+./MCR1net18.sh &
+./MCSnet18.sh &
 
 
-./n19pc.sh &
-./n19mcr.sh &
-./n19mcs.sh &
+./PCnet19.sh &
+./MCR1net19.sh &
+./MCSnet19.sh &
 
 
 
@@ -404,22 +404,22 @@ done
 
 
 
-rm ./n16pc.sh
-rm ./n16mcr.sh
-rm ./n16mcs.sh
+rm ./PCnet16.sh
+rm ./MCR1net16.sh
+rm ./MCSnet16.sh
 rm ./password
-rm ./n17pc.sh 
-rm ./n17mcr.sh 
-rm ./n17_2mcr.sh
-rm ./n17mcs.sh 
+rm ./PCnet17.sh 
+rm ./MCR1net17.sh 
+rm ./MCR2net17.sh
+rm ./MCSnet17.sh 
 
-rm ./n18pc.sh 
-rm ./n18mcr.sh
-rm ./n18mcs.sh
+rm ./PCnet18.sh 
+rm ./MCR1net18.sh
+rm ./MCSnet18.sh
 
 
-rm ./n19pc.sh
-rm ./n19mcr.sh
-rm ./n19mcs.sh
+rm ./PCnet19.sh
+rm ./MCR1net19.sh
+rm ./MCSnet19.sh
 
 echo "Finished!"
