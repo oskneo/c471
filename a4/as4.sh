@@ -1,6 +1,13 @@
 #!/bin/bash
 MCA1="224.5.5.5"
 P1="5678"
+
+if [ $# -gt 0]
+then
+ MCA1=$1
+ P1=$2
+fi
+
 #Multicast address of group MCA1 and port
 
 
@@ -155,6 +162,7 @@ chmod 777 ./PCnet19.sh
 
 echo "
 $join_time JOIN $MCA1 PORT $P1
+$((join_time+30)) LISTEN UDP $P1
 $leave_time LEAVE $MCA1 PORT $P1
 
 " > ./MCRnet.mgn
