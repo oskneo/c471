@@ -2,7 +2,7 @@
 
 
 
-if [ $# -gt 0]
+if [ $# -gt 0 ]
 then
  MCA1=$1
  P1=$2
